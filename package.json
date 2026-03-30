@@ -1,0 +1,21 @@
+{
+  "name": "sales-order",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "dependencies": {
+    "@sap/cds": "^9.8.4",
+    "@cap-js/sqlite": "^2",
+    "express": "^4"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite"
+      }
+    }
+  }
+}

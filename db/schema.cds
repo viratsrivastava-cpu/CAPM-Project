@@ -6,6 +6,11 @@ entity ZSO_VBAK {
         ERDAT   : Date;         // Creation Date
         KUNNR   : String(10);   // Customer Number (FK → ZKN A1)
         ERNAM   : String(12);   // Name of person who created
+
+        // Composition - Header owns Items
+        // If Header deleted, Items also deleted
+        Items   : Composition of many ZSO_VBAP
+                  on Items.VBELN = $self.VBELN;
 }
 
 // Sales Order Items
@@ -18,4 +23,8 @@ entity ZSO_VBAP {
         MEINS   : String(3);    // Unit of Measure
         NETPR   : Decimal(11,2);// Net Price
         PEINH   : String(3);    // Price Unit
+
+        // Association - Item refers back to Header
+        Header  : Association to ZSO_VBAK
+                  on Header.VBELN = $self.VBELN;
 }

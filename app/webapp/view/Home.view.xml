@@ -1,0 +1,43 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="zsd.controller.Home"
+    displayBlock="true">
+
+    <Page>
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="Sales Order Management System" level="H1"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+
+        <VBox alignItems="Center" class="sapUiMediumMargin">
+
+            <Title text="Welcome to Sales Dashboard" level="H1"
+                   class="sapUiLargeMarginBottom"/>
+
+            <Title text="Choose Any One Option" level="H2"
+                   class="sapUiMediumMarginBottom"/>
+
+            <Button
+                text="Sales Order Management"
+                type="Emphasized"
+                icon="sap-icon://sales-order"
+                press="onSalesOrder"
+                width="250px"
+                class="sapUiSmallMarginBottom"/>
+
+            <Button
+                text="Sales Order Item Management"
+                type="Emphasized"
+                icon="sap-icon://list"
+                press="onSalesItem"
+                width="250px"
+                class="sapUiSmallMarginBottom"/>
+
+        </VBox>
+    </Page>
+
+</mvc:View>

@@ -1,0 +1,68 @@
+{
+  "sap.app": {
+    "id": "zsd",
+    "type": "application",
+    "title": "Sales Order Dashboard",
+
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/sales-order/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+
+  "sap.ui5": {
+
+    "rootView": {
+      "viewName": "zsd.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "appView"
+    },
+
+    "dependencies": {
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
+      }
+    },
+
+    "models": {
+      "odataModel": {
+        "dataSource": "mainService",
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "settings": {
+          "operationMode": "Server",
+          "synchronizationMode": "None",
+          "autoExpandSelect": true
+        }
+      }
+    },
+
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "zsd.view",
+        "controlId": "mainApp",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        { "name": "home",   "pattern": "",       "target": "home"   },
+        { "name": "orders", "pattern": "orders", "target": "orders" },
+        { "name": "items",  "pattern": "items",  "target": "items"  }
+      ],
+      "targets": {
+        "home":   { "viewName": "Home",       "viewLevel": 1 },
+        "orders": { "viewName": "SalesOrder", "viewLevel": 2 },
+        "items":  { "viewName": "SalesItem",  "viewLevel": 2 }
+      }
+    }
+  }
+}

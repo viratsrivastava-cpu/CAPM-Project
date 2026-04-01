@@ -1,0 +1,313 @@
+<mvc:View
+    controllerName="zsd.controller.SalesItem"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:t="sap.ui.table"
+    xmlns:f="sap.ui.layout.form">
+
+<Page title="Sales Order Item Management System"
+      showNavButton="true"
+      navButtonPress="onNavHome">
+
+<!-- ================= OPERATION SELECTION ================= -->
+<Panel headerText="Select Operation"
+       class="sapUiLargeMargin sapUiResponsiveMargin"
+       visible="{/showOperationSelector}">
+
+    <VBox alignItems="Center" class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+        <HBox justifyContent="Center">
+            <Button text="Create"
+                    type="Accept"
+                    icon="sap-icon://add"
+                    press="onCreate"
+                    width="150px"
+                    class="sapUiSmallMargin"/>
+            <Button text="Read"
+                    type="Emphasized"
+                    icon="sap-icon://search"
+                    press="onRead"
+                    width="150px"
+                    class="sapUiSmallMargin"/>
+            <Button text="Update"
+                    icon="sap-icon://edit"
+                    press="onUpdate"
+                    width="150px"
+                    class="sapUiSmallMargin"/>
+            <Button text="Delete"
+                    type="Reject"
+                    icon="sap-icon://delete"
+                    press="onDelete"
+                    width="150px"
+                    class="sapUiSmallMargin"/>
+        </HBox>
+    </VBox>
+</Panel>
+
+
+<!-- ================= CREATE SALES ORDER ITEM ================= -->
+<Panel headerText="Create Sales Order Item"
+       class="sapUiLargeMargin sapUiResponsiveMargin"
+       visible="{/showCreatePanel}">
+
+    <Toolbar>
+        <Button text="Back" icon="sap-icon://nav-back" press="onBack"/>
+    </Toolbar>
+
+    <f:SimpleForm
+        editable="true"
+        layout="ResponsiveGridLayout"
+        columnsXL="2"
+        columnsL="1"
+        columnsM="1">
+        <f:content>
+            <Label text="VBELN — Sales Order No" required="true"/>
+            <Input value="{/createPayload/VBELN}" placeholder="e.g. 0000000001"/>
+
+            <Label text="POSNR — Line Item No" required="true"/>
+            <Input value="{/createPayload/POSNR}" placeholder="e.g. 000010"/>
+
+            <Label text="MATNR — Material No" required="true"/>
+            <Input value="{/createPayload/MATNR}" placeholder="e.g. MAT0001"/>
+
+            <Label text="MATKL — Material Group"/>
+            <Input value="{/createPayload/MATKL}" placeholder="e.g. PLASTICS"/>
+
+            <Label text="MENGE — Quantity"/>
+            <Input value="{/createPayload/MENGE}" placeholder="e.g. 5" type="Number"/>
+
+            <Label text="MEINS — Unit"/>
+            <Input value="{/createPayload/MEINS}" placeholder="e.g. EA"/>
+
+            <Label text="NETPR — Net Price"/>
+            <Input value="{/createPayload/NETPR}" placeholder="e.g. 25000" type="Number"/>
+
+            <Label text="PEINH — Currency"/>
+            <Input value="{/createPayload/PEINH}" placeholder="e.g. INR"/>
+        </f:content>
+    </f:SimpleForm>
+
+    <Toolbar>
+        <Button text="Save"
+                type="Accept"
+                icon="sap-icon://save"
+                press="onSave"/>
+    </Toolbar>
+</Panel>
+
+
+<!-- ================= READ SALES ORDER ITEM ================= -->
+<Panel headerText="View Sales Order Items"
+       class="sapUiLargeMargin sapUiResponsiveMargin"
+       visible="{/showReadPanel}">
+
+    <Toolbar>
+        <Button text="Back" icon="sap-icon://nav-back" press="onBack"/>
+    </Toolbar>
+
+    <f:SimpleForm layout="ResponsiveGridLayout">
+        <f:content>
+            <Label text="VBELN — Sales Order No"/>
+            <HBox>
+                <Input value="{/readVBELN}" placeholder="Enter full or partial VBELN"/>
+                <Button icon="sap-icon://search"
+                        text="Search"
+                        press="onSearchItem"
+                        class="sapUiSmallMarginBegin"/>
+            </HBox>
+
+            <Label text="POSNR — Line Item No"/>
+            <HBox>
+                <Input value="{/readPOSNR}" placeholder="Enter full or partial POSNR (optional)"/>
+            </HBox>
+        </f:content>
+    </f:SimpleForm>
+
+    <Panel headerText="Sales Order Items" visible="{/showReadResult}">
+        <t:Table
+            id="idItemTable"
+            rows="{/salesItems}"
+            visibleRowCount="5"
+            selectionMode="None">
+            <t:columns>
+                <t:Column>
+                    <Label text="VBELN"/>
+                    <t:template><Text text="{VBELN}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="POSNR"/>
+                    <t:template><Text text="{POSNR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MATNR"/>
+                    <t:template><Text text="{MATNR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MATKL"/>
+                    <t:template><Text text="{MATKL}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MENGE"/>
+                    <t:template><Text text="{MENGE}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MEINS"/>
+                    <t:template><Text text="{MEINS}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="NETPR"/>
+                    <t:template><Text text="{NETPR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="PEINH"/>
+                    <t:template><Text text="{PEINH}"/></t:template>
+                </t:Column>
+            </t:columns>
+        </t:Table>
+    </Panel>
+</Panel>
+
+
+<!-- ================= UPDATE SALES ORDER ITEM ================= -->
+<Panel headerText="Update Sales Order Item"
+       class="sapUiLargeMargin sapUiResponsiveMargin"
+       visible="{/showUpdatePanel}">
+
+    <Toolbar>
+        <Button text="Back" icon="sap-icon://nav-back" press="onBack"/>
+    </Toolbar>
+
+    <f:SimpleForm layout="ResponsiveGridLayout">
+        <f:content>
+            <Label text="VBELN — Sales Order No"/>
+            <HBox>
+                <Input value="{/searchVBELN}" placeholder="Enter VBELN"/>
+                <Input value="{/searchPOSNR}"
+                       placeholder="Enter POSNR"
+                       class="sapUiSmallMarginBegin"/>
+                <Button text="Search &amp; Load"
+                        icon="sap-icon://search"
+                        press="onEditItem"
+                        class="sapUiSmallMarginBegin"/>
+            </HBox>
+        </f:content>
+    </f:SimpleForm>
+
+    <Panel visible="{/editMode}" headerText="Edit Sales Order Item">
+        <f:SimpleForm layout="ResponsiveGridLayout">
+            <f:content>
+                <Label text="VBELN"/>
+                <Text text="{/editPayload/VBELN}"/>
+
+                <Label text="POSNR"/>
+                <Text text="{/editPayload/POSNR}"/>
+
+                <Label text="MATNR"/>
+                <Text text="{/editPayload/MATNR}"/>
+
+                <Label text="MATKL — Material Group"/>
+                <Input value="{/editPayload/MATKL}"/>
+
+                <Label text="MENGE — Quantity"/>
+                <Input value="{/editPayload/MENGE}" type="Number"/>
+
+                <Label text="MEINS — Unit"/>
+                <Input value="{/editPayload/MEINS}"/>
+
+                <Label text="NETPR — Net Price"/>
+                <Input value="{/editPayload/NETPR}" type="Number"/>
+
+                <Label text="PEINH — Currency"/>
+                <Input value="{/editPayload/PEINH}"/>
+            </f:content>
+        </f:SimpleForm>
+        <Toolbar>
+            <Button text="Update"
+                    type="Accept"
+                    icon="sap-icon://save"
+                    press="onUpdateItem"/>
+            <Button text="Cancel"
+                    type="Reject"
+                    icon="sap-icon://cancel"
+                    press="onCancelEdit"/>
+        </Toolbar>
+    </Panel>
+</Panel>
+
+
+<!-- ================= DELETE SALES ORDER ITEM ================= -->
+<Panel headerText="Delete Sales Order Item"
+       class="sapUiLargeMargin sapUiResponsiveMargin"
+       visible="{/showDeletePanel}">
+
+    <Toolbar>
+        <Button text="Back" icon="sap-icon://nav-back" press="onBack"/>
+    </Toolbar>
+
+    <f:SimpleForm>
+        <f:content>
+            <Label text="VBELN — Sales Order No"/>
+            <HBox>
+                <Input value="{/deleteVBELN}" placeholder="Enter full or partial VBELN"/>
+                <Input value="{/deletePOSNR}"
+                       placeholder="Enter POSNR (optional)"
+                       class="sapUiSmallMarginBegin"/>
+                <Button text="Search"
+                        icon="sap-icon://search"
+                        press="onDeleteSearch"
+                        class="sapUiSmallMarginBegin"/>
+            </HBox>
+        </f:content>
+    </f:SimpleForm>
+
+    <Panel visible="{/showDeleteResult}" headerText="Sales Order Items">
+        <t:Table
+            id="idDeleteItemTable"
+            rows="{/salesItems}"
+            selectionMode="MultiToggle"
+            visibleRowCount="5">
+            <t:columns>
+                <t:Column>
+                    <Label text="VBELN"/>
+                    <t:template><Text text="{VBELN}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="POSNR"/>
+                    <t:template><Text text="{POSNR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MATNR"/>
+                    <t:template><Text text="{MATNR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MATKL"/>
+                    <t:template><Text text="{MATKL}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MENGE"/>
+                    <t:template><Text text="{MENGE}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="MEINS"/>
+                    <t:template><Text text="{MEINS}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="NETPR"/>
+                    <t:template><Text text="{NETPR}"/></t:template>
+                </t:Column>
+                <t:Column>
+                    <Label text="PEINH"/>
+                    <t:template><Text text="{PEINH}"/></t:template>
+                </t:Column>
+            </t:columns>
+        </t:Table>
+        <Toolbar>
+            <Button text="Delete Selected"
+                    type="Reject"
+                    icon="sap-icon://delete"
+                    press="onDeleteSelected"/>
+        </Toolbar>
+    </Panel>
+</Panel>
+
+</Page>
+</mvc:View>
